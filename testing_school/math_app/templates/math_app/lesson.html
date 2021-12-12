@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Урок
+{% endblock %}
+
+{% block namepage %}
+{% endblock %}
+
+{% block img1 %}
+    {% if task_data.img %}
+        <img src="{{task_data.img.url}}" width="150" height="150">
+    {% endif %}
+{% endblock %}
+
+
+{% block content1 %}
+
+<form action="{% url 'math_app:lesson' %}"  method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <button type="submit">Сдать</button>
+
+</form>
+
+{% endblock %}
