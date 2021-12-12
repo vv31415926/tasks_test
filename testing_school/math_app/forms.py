@@ -4,7 +4,7 @@ from .models import *
 class Lesson_form( forms.Form ):
 
     task_data = Task.objects.first()
-    task = forms.CharField( widget=forms.Textarea(attrs={'cols': 60, 'rows':4}),
+    task = forms.CharField( widget=forms.Textarea(attrs={'cols': 60,  'rows':4}),
                             label='Задача',
                             initial=task_data.question )
     version = forms.ModelChoiceField( widget=forms.RadioSelect,
