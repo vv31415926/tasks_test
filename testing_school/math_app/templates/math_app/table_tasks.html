@@ -1,8 +1,8 @@
 <!-- Begin Page Content -->
-{% extends 'base.html' %}
+{% extends 'math_app/base.html' %}
 
 {% block title %}
-    Задачи
+    {{title}}
 {% endblock %}
 
 {% block namepage %}
@@ -42,7 +42,12 @@
                                     <tbody>
                                         {%  for item in tasks %}
                                             <tr>
-                                                <td>{{item.task.group}}.{{item.task.variant}}.{{item.task.numtask}}</td>
+                                                <td>
+                                                    <a class="collapse-item" href="{{ item.task.get_absolute_url }}">
+                                                        <!-- раздел.тема.вариант.номер -->
+                                                        {{item.partnum}}.{{item.themenum}}.{{item.task.variant}}.{{item.task.numtask}}
+                                                    </a>
+                                                </td>
                                                 <td>{{item.task.question}}</td>
 
                                                 <td>    {% if item.task.img %}
@@ -52,13 +57,17 @@
 
                                                 <td>
                                                     <lo>
+
                                                          {%  for v in item.vers %}
                                                                 <li>
+                                                                    <a class="collapse-item" href="{{ v.get_absolute_url }}">
                                                                     {% autoescape off %}
-                                                                    {{v.npp}})  {{v.variant}}
+                                                                    {{v.npp}})  {{v.answer}}
                                                                     {% endautoescape %}
+                                                                    </a>
                                                                 </li>
                                                         {% endfor %}
+
                                                     </lo>
                                                 </td>
                                             </tr>

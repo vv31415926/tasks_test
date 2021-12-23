@@ -1,17 +1,28 @@
 from django import forms
 from .models import *
 
-class Lesson_form( forms.Form ):
+class Check_form( forms.ModelForm ):
+    pass
 
-    task_data = Task.objects.first()
-    task = forms.CharField( widget=forms.Textarea(attrs={'cols': 60,  'rows':4}),
-                            label='Задача',
-                            initial=task_data.question )
-    version = forms.ModelChoiceField( widget=forms.RadioSelect,
-                                      queryset=Version.objects.filter( task=task_data.id),
-                                      label='Вариант ответа'  )
+class TaskForm( forms.ModelForm ):
+    #numtask = forms.IntegerField()
+    #question = forms.CharField( widget=forms.Textarea(attrs={'cols': 60, 'rows': 3}))
+    class Meta:
+        model=Task
+        fields=['numtask', 'variant', 'question', 'comment', 'numclass','level','theme','img']
+        widgets = {  'question': forms.Textarea(attrs={'cols': 35, 'rows':5})    }
 
-# ---------------------------------------------------------------------------------------------------------------
-#class  Login_form( forms.Form ):
-#    login = forms.EmailInput( max_length=25 )
+class StudentForm( forms.ModelForm ):
+    class Meta:
+        model=Student
+        fields=['last_name', 'name', 'email', 'num_class', 'letter_class']
 
+class VersionForm( forms.ModelForm ):
+    class Meta:
+        model=Version
+        fields=['npp', 'answer', 'correct' ]
+
+class LessonForm( forms.ModelForm ):
+    class Meta:
+        model=Lesson
+        fields=['answer', 'correctly' ]

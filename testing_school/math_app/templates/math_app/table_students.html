@@ -1,11 +1,12 @@
 <!-- Begin Page Content -->
-{% extends 'base.html' %}
+{% extends 'math_app/base.html' %}
 
 {% block title %}
-    Студенты
+    {{nametable}}
 {% endblock %}
 
 {% block namepage %}
+
 {% endblock %}
 
 {% block content1 %}
@@ -38,12 +39,22 @@
                                     </tfoot>
 
                                     <tbody>
-                                        {%  for item in students %}
-                                            <tr>
-                                                <td>{{item.name}}</td>
-                                                <td>{{item.email}}</td>
+                                        {%  for item in students_table %}
 
-                                                <td>    {{item.num_class}}{{item.letter_class}}
+                                            <tr>
+                                                <td>
+                                                    <!--{{item}}--{{ item.get_absolute_url }}<br-->
+                                                    <a class="collapse-item" href="{{ item.get_absolute_url }}">
+                                                        {{item.last_name}} &nbsp {{item.name}}
+                                                    </a>
+                                                </td>
+
+                                                <td>
+                                                    {{item.email}}
+                                                </td>
+
+                                                <td>
+                                                    {{item.num_class}}{{item.letter_class}}
                                                 </td>
                                             </tr>
                                         {% endfor %}

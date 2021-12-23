@@ -3,9 +3,9 @@ from math_app.models import Student, Task, Version, Lesson
 
 class Command( BaseCommand ):
     def handle(self, *args, **options):
-        stud = Student.objects.filter( num_class=10 )
+        stud = Student.objects.all()
         stud.delete()
 
-        tsk = Task.objects.filter( group='AA5')  # AA5 engl
+        tsk = Task.objects.all()  # A5 engl
         tsk.delete()
 

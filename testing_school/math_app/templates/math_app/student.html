@@ -1,0 +1,41 @@
+<!-- Begin Page Content -->
+{% extends 'math_app/base.html' %}
+
+{% block title %}
+        {{title}}
+{% endblock %}
+
+{% block namepage %}
+
+{% endblock %}
+
+{% block content1 %}
+<div class="container-fluid">
+        <div class="card shadow mb-4">
+                <div class="card-body">
+<form href="{{ student_one.get_absolute_url }}"  method="post" >
+        {% csrf_token %}
+
+        <label for="{{form.last_name.id_for_label}}">{{form.last_name.label}}</label>{{form.last_name}}
+        <br>
+        <label for="{{form.name.id_for_label}}">{{form.name.label}}</label>{{form.name}}
+        <br>
+        <label for="{{form.email.id_for_label}}">{{form.email.label}}</label>{{form.email}}
+        <br>
+        <label for="{{form.num_class.id_for_level}}">{{form.num_class.label}}</label>{{form.num_class}}{{form.letter_class}}
+
+        <div class="card-body">
+                <button type="submit">Сохранить</button>
+        </div>
+
+
+</form>
+<hr>
+<div class="card-body">
+<a href="{% url 'math_app:student_lessons' obj.pk %}"> Уроки </a>
+<div
+
+</div>
+        </div>
+                        </div>
+{% endblock %}

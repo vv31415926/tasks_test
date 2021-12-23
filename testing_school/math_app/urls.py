@@ -1,18 +1,25 @@
 from django.urls import path
-from math_app  import  views
-
+#from math_app  import  views
+from .views import *
+from math_app.views import Students_page#, Student_page
 
 app_name = 'math_app'   # нужно обязательно - не будет адресации в шаблонах по имени  в include
 
 urlpatterns = [
-    path( '', views.main_page, name='index'  ),
-    #      адрес     функ-вьюшка     обращение из html
-    #path('table/', views.table_page, name='table'),  # с какого адреса запускать вьюшку
-    path('table_tasks/', views.tasks_page, name='tasks_table'),
-    path('table_students/', views.students_page, name='students_table'),
-    path('login/', views.login_page, name='login'),
-    path('lesson/', views.lesson_page, name='lesson'),
-    #path('students/', views.students_page, name='students'),  # с какого адреса запускать вьюшку
-    #path('tasks/', views.tasks_page, name='tasks'),
-    #path('lessons/', views.lessons_page, name='lessons'),
+    path( '',                   main_page,            name='index'  ),
+    path('table_tasks/',        TasksPage.as_view(),  name='tasks_table'),
+    path('table_students/',     Students_page.as_view(),name='students_table'),
+    path('login/',              login_page,           name='login'),
+    #path('check/',              check_page,           name='check'),
+    path('theme/',              ThemesPage.as_view(), name='themes'),
+    path('partition/',          PartitionsPage.as_view(), name='partitions'),
+    path('level/',              LevelsPage.as_view(), name='levels'),
+
+    path('student/Lesson/<int:student_id>/',     StudentLessons.as_view(),      name='student_lessons'),
+
+    path('task/<int:task_id>/',         ShowTask.as_view(),    name='task_one'),
+    path('student/<int:student_id>/',   ShowStudent.as_view(), name='student_one'),
+    path('version/<int:version_id>/',   ShowVersion.as_view(), name='version_one'),
+    path('lesson/<int:lesson_id>/',     ShowLesson.as_view(),  name='lesson_one'),
+
 ]

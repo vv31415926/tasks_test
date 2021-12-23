@@ -22,5 +22,5 @@ urlpatterns = [
     path( 'admin/', admin.site.urls),
     path( '', include( 'math_app.urls', namespace='mathapp' ) ),  # ссылка на адреса приложения. 'mathapp'-имя всего приложения
 ]
-if settings.DEBUG:
+if settings.DEBUG:  # связь url хранения и путь поиска
     urlpatterns += static( settings.MEDIA_URL, document_root=settings.MEDIA_ROOT )

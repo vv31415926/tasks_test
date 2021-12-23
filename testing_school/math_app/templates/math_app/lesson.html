@@ -1,27 +1,67 @@
-{% extends 'base.html' %}
+{% extends 'math_app/base.html' %}
 
 {% block title %}
-    Урок
+    {{title}}
 {% endblock %}
 
 {% block namepage %}
+    {{namepage}}
 {% endblock %}
 
 {% block img1 %}
-    {% if task_data.img %}
-        <img src="{{task_data.img.url}}" width="150" height="150">
-    {% endif %}
+
 {% endblock %}
 
 
 {% block content1 %}
 
-<form action="{% url 'math_app:lesson' %}"  method="post">
-    {% csrf_token %}
-    {{form.as_p}}
+    <div class="container-fluid">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">{{nametable}}</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Ответ</th>
+                                <th>Результат</th>
+                                <th>Задача</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Ответ</th>
+                                <th>Результат</th>
+                                <th>Задача</th>
+                            </tr>
+                        </tfoot>
 
-    <button type="submit">Сдать</button>
+                        <tbody>
+                            {%  for item in student_lessons %}
 
-</form>
+                                <tr>
+                                    <td>
+                                           {{item.answer}} &nbsp {{item.name}}
+                                    </td>
+                                    <td>
+                                        {{item.correctly}}
+                                    </td>
+                                    <td>
+                                        {{item.task}}
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 
 {% endblock %}

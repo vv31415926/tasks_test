@@ -1,28 +1,81 @@
 # Импортируемые данные
-lst_student = [
-{'name':'Воробъев','email':'a1@mail.ru','class':'10','ch':'А'},
-{'name':'Щеглов','email':'a2@mail.ru','class':'10','ch':'Б'},
-{'name':'Синицин','email':'a3@mail.ru','class':'10','ch':'В'},
-{'name':'Соколов','email':'a4@mail.ru','class':'10','ch':'Г'},
-{'name':'Орлов','email':'a5@mail.ru','class':'10','ch':'А'},
-{'name':'Цаплин','email':'a6@mail.ru','class':'10','ch':'Б'},
-{'name':'Снигирев','email':'a7@mail.ru','class':'10','ch':'В'},
-{'name':'Кукушкин','email':'a8@mail.ru','class':'10','ch':'Г'},
-{'name':'Савушкин','email':'a9@mail.ru','class':'10','ch':'А'},
-{'name':'Куропаткин','email':'a0@mail.ru','class':'10','ch':'Б'}
+from django.utils.text import slugify
+
+lst_partition=[
+    {'num':1,'name':'Вычисления, преобразования'},
+    {'num':2,'name':'Уравнения, неравенства'},
+    {'num':3,'name':'Функции'},
+    {'num':4,'name':'Геометрические фигуры, координаты, вектора'},
+    {'num':5,'name':'Математические модели'},
+    {'num':6,'name':'Применение'}
 ]
-# AA5 engl
+
+lst_theme=[
+    {'partition_id':1, 'num':1, 'name':'Арифметические действия (устно, писменно), корень, степень, логарифм'},
+    {'partition_id':2, 'num':1, 'name':'Решение уравнений, их систем'},
+    {'partition_id':3, 'num':1, 'name':'Определять значение функции, по графику определять поведение и свойство функции'},
+    {'partition_id':4, 'num':1, 'name':'Раходить геометрические величины (длинна, угол, площадь)'},
+    {'partition_id':5, 'num':1, 'name':'Уравнения и неравенства по условию'},
+    {'partition_id':6, 'num':1, 'name':'Анализ числовых данных, статистики, практические расчеты по формулам'}
+]
+
+lst_level=[
+    {'num':1, 'name':'Простой'},
+    {'num':2, 'name':'Средний'},
+    {'num':3, 'name':'Сложный'},
+    {'num':4, 'name':'Супер'}
+]
+
+lst_student = [
+{'last_name':'Воробьев','name':'Миша','email':'a1@mail.ru','class':'10','ch':'А','slug':''},
+{'last_name':'Щеглов','name':'Паша','email':'a2@mail.ru','class':'10','ch':'Б'},
+{'last_name':'Синицин','name':'Саша','email':'a3@mail.ru','class':'10','ch':'В'},
+{'last_name':'Соколов','name':'Петя','email':'a4@mail.ru','class':'10','ch':'Г'},
+{'last_name':'Орлов','name':'Сергей','email':'a5@mail.ru','class':'10','ch':'А'},
+{'last_name':'Цаплин','name':'Виталий','email':'a6@mail.ru','class':'10','ch':'Б'},
+{'last_name':'Снигирев','name':'Алексей','email':'a7@mail.ru','class':'10','ch':'В'},
+{'last_name':'Кукушкин','name':'Фелор','email':'a8@mail.ru','class':'10','ch':'Г'},
+{'last_name':'Савушкин','name':'Ераклий','email':'a9@mail.ru','class':'10','ch':'А'},
+{'last_name':'Куропаткин','name':'Моисей','email':'a0@mail.ru','class':'10','ch':'Б'}
+]
+# A5 engl
 lst_task=[
+{'question':'Функция y=f(x)  задана своим графиком. Укажите в какой точке графика касательная к нему параллельна оси абсцисс.',
+            'numtask':1,
+            'variant':3,
+            'level_id':2,
+            'theme_id':3,
+            'version': [{'variant':'(-3;-2)',   'correct':'0','npp':'1'},
+                        {'variant':'(4;-2)',    'correct':'0','npp':'2'},
+                        {'variant':'(3;1)',     'correct':'1','npp':'3'},
+                        {'variant':'(-1;-3)',   'correct':'0','npp':'4'} ]},
+
+{'question':'На рисунке изображен график производной некоторой функции. Укажите промежуток, на котором функция возрастает',
+            'numtask':'1',
+            'variant':'4',
+            'level_id':2,
+            'theme_id':3,
+            'version': [{'variant':'(-3;1)',        'correct':'0','npp':'1'},
+                        {'variant':'(-2;2)',        'correct':'0','npp':'2'},
+                        {'variant':'(-&infin;;-1)', 'correct':'1','npp':'3'},
+                        {'variant':'[0;10)',        'correct':'0','npp':'4'} ]},
+
 {'question':'Точка движктся по закону S(t)=t^3-2*t^2. ' \
             'Выберите какой из формул задается скорость движения этой точки в момент времени t.',
-            'numtask':'3','variant':'3','group':'AA5',
+            'numtask':'3',
+            'variant':'3',
+            'level_id':2,
+            'theme_id':3,
             'version': [{'variant':'3*t^2-2','correct':'0','npp':'1'},
                         {'variant':'t^2-4*t','correct':'0','npp':'2'},
                         {'variant':'t^4/4-2*t^3/3','correct':'0','npp':'3'},
                         {'variant':'3*t^2-4*T','correct':'1','npp':'4'} ]},
 {'question':'Зависимость температуры T тела от времени задана уравнением' \
             'T=1/2*T^2-2*t+5. С какой скоростью нагревается это тело в момент времени t=5с ?',
-            'numtask':'4','variant':'3','group':'AA5',
+            'numtask':'4',
+            'variant':'3',
+            'level_id':2,
+            'theme_id':3,
             'version': [{'variant':'3','correct':'1','npp':'1'},
                         {'variant':'-8','correct':'0','npp':'2'},
                         {'variant':'7,5','correct':'0','npp':'3'},
@@ -30,7 +83,10 @@ lst_task=[
 {'question':'При движении тела по прямой расстояние S(t) в метрахот начальной точки M ' \
             'изменяется по закону S(t)=3*t^3+2*t^2+4*t+5 (t-время в секундах). Через сколько секунд ' \
             'после начала движения мгновенное  ускорение тела будет равно 58 м/с^2 ?',
-            'numtask':'5','variant':'3','group':'AA5',
+            'numtask':'5',
+            'variant':'3',
+            'level_id':2,
+            'theme_id':3,
             'version': [{'variant':'5c','correct':'0','npp':'1'},
                         {'variant':'3c','correct':'1','npp':'2'},
                         {'variant':'2c','correct':'0','npp':'3'},
@@ -38,29 +94,55 @@ lst_task=[
 ]
 # Импорт:
 from django.core.management.base import BaseCommand
-from math_app.models import Student, Task, Version, Lesson
+from math_app.models import *
 
 class Command( BaseCommand ):
+    # начальное заполнение БД
     def handle(self, *args, **options):
-        stud = Student.objects.filter( num_class=10 )
-        if len( stud ) == 0:
+
+        part = Partition.objects.all()
+        if len(part) == 0:  # база пуста
+            for s in lst_partition:
+                s = Partition.objects.create( name=s['name'], num=s['num'] )
+
+        th = Theme.objects.all()
+        if len(th) == 0:  # база пуста
+            for s in lst_theme:
+                s = Theme.objects.create( name=s['name'], num=s['num'] )
+
+        level = Level.objects.all()
+        if len(level) == 0:  # база пуста
+            for s in lst_level:
+                s = Level.objects.create( name=s['name'], num=s['num'] )
+
+
+        stud = Student.objects.all()
+        if len( stud ) == 0:  #  база пуста
             for s in lst_student:
-                Student.objects.create(  name=s['name'], email=s['email'], num_class=int(s['class']), letter_class=s['ch'])
-        tsk = Task.objects.filter( group='AA5')
-        if len(tsk) == 0:
+                s = Student.objects.create(  last_name=s['last_name'], name=s['name'],
+                                         email=s['email'], num_class=int(s['class']), letter_class=s['ch']  )
+        #print( '********************************************************************************************************* stud-OK')
+        # Задачи
+        task = Task.objects.all()
+        if len(task) == 0:
             for t in lst_task:
-                Task.objects.create( question=t['question'], numtask=t['numtask'], variant=t['variant'], group=t['group'] )
-                t_id = Task.objects.get(numtask=t['numtask']).id
+                ti = Task.objects.create(  question=t['question'], numtask=t['numtask'], variant=t['variant'] )
+                #print('>>>>>>>>>>>>>> ti.id=',ti.id, type(ti.id))
+                t_id = ti.id #Task.objects.get( numtask=ti.id )    #t['numtask']).id
                 #print( t_id, type(t_id))
                 for v in t['version']:
-                    Version.objects.create( npp=v['npp'], variant=v['variant'], correct=v['correct'], task_id=t_id )
+                    Version.objects.create( npp=v['npp'], answer=v['variant'], correct=v['correct'], task_id=t_id )
+
+        #print('********************************************************************************************************* tsk-OK')
         # уроки
         import random
         stud = Student.objects.all()
         tsk = Task.objects.all()
 
+        # Каждому студенту назначается задача.  На которую он случайно отвечает
         for s in stud:
             s_id = s.id
             for t in tsk:
                 t_id = t.id
                 Lesson.objects.create( answer=random.randint(1,4), student_id=s_id, task_id=t_id  )
+        #print('********************************************************************************************************* less-OK')
