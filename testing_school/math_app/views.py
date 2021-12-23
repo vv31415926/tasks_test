@@ -3,18 +3,32 @@ from django.http import HttpResponse, Http404, HttpResponseNotFound
 from .models import *
 from .forms import *
 from django.views.generic import *
+from .utils import CommonContext
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
-def main_page( request ):
-    context = {'title': 'Проверка знаний по математике',
-            }
-    return render( request,
-                   'math_app/index.html',
-                   context=context )
+# def main_page(  request ):
+#     context = {'title': 'Проверка знаний.',
+#             }
+#     return render( request,
+#                    'math_app/index.html',
+#                    context=context )
 
-class TasksPage( ListView ):
+class MainPage( CommonContext, ListView ):
+    model = Task
+    template_name = 'math_app/index.html'
+    context_object_name = 'task'
+
+    def get_context_data(self, *, object_list=None, **kwargs ):
+        context = super().get_context_data( **kwargs )
+        context['title'] = 'Проверка знаний.'
+
+        return context
+
+
+
+class TasksPage( CommonContext, ListView ):
     model = Task
     template_name = 'math_app/table_tasks.html'
     # context_object_name = 'tasks' - не нужно т.к. определяется в context['tasks'] =  lst_data
@@ -41,9 +55,7 @@ class TasksPage( ListView ):
 
         return context
 
-
-
-class StudentLessons( ListView ):
+class StudentLessons( CommonContext, ListView ):
     model = Lesson
     template_name = 'math_app/lesson.html'
     context_object_name = 'student_lessons'
@@ -59,13 +71,6 @@ class StudentLessons( ListView ):
     def get_queryset(self):
         #print( '============',self.kwargs.keys() )
         return Lesson.objects.filter( student_id=self.kwargs['student_id'] )
-
-
-
-
-
-
-
 
 class ShowTask( UpdateView ):
     form_class = TaskForm
@@ -111,7 +116,6 @@ class ShowStudent( UpdateView ):
     def get_queryset(self):
         return Student.objects.filter( pk=self.kwargs['student_id'] )
 
-
 class ShowVersion( UpdateView ):
     form_class = VersionForm
     template_name = 'math_app/version.html'
@@ -141,8 +145,6 @@ class ShowLesson( UpdateView ):
 
     def get_queryset(self):
         return Version.objects.filter( pk=self.kwargs['version_id'] )
-
-
 
 class ThemesPage( ListView ):
     model = Theme
@@ -176,15 +178,6 @@ class LevelsPage( ListView ):
         context['title'] = 'Уровни'
         context['namepage'] = 'Уровни сложности'
         return context
-
-
-# def levels( request ):
-#     level = Level.objects.all()
-#     context = { 'title':'Уровень', 'level':level }
-#     return render( request,
-#                    'math_app/levels.html',
-#                    context=context )
-
 
 def login_page( request ):
     return render( request,

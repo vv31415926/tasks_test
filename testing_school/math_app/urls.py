@@ -6,7 +6,7 @@ from math_app.views import Students_page#, Student_page
 app_name = 'math_app'   # нужно обязательно - не будет адресации в шаблонах по имени  в include
 
 urlpatterns = [
-    path( '',                   main_page,            name='index'  ),
+    path( '',                   MainPage.as_view(),   name='index'  ),
     path('table_tasks/',        TasksPage.as_view(),  name='tasks_table'),
     path('table_students/',     Students_page.as_view(),name='students_table'),
     path('login/',              login_page,           name='login'),
