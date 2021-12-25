@@ -2,9 +2,8 @@ from django.db import models
 
 # Create your models here.
 from django.urls import reverse
-#from django.utils.text import slugify
 
-class Task(models.Model):
+class Task( models.Model ):
     numtask = models.IntegerField( default=0 , verbose_name='Номер')
     variant = models.IntegerField( default=0, verbose_name= 'Вариант')
     question = models.TextField(blank=True, verbose_name='Условие')
